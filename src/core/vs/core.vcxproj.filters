@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{329a15b8-8ac2-411b-a638-bf6ddebf06df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="component">
+      <UniqueIdentifier>{d1ef185f-97b7-4000-9c8a-08cc6a3fe20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="language">
+      <UniqueIdentifier>{655881dc-3a85-4450-aba4-618fb3fad82f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime">
+      <UniqueIdentifier>{e68469dc-4a0b-456f-ab10-81c0b6cb585b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\luna_exception.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna_trace.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna.cpp" />
+    <ClCompile Include="..\luna_node.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna_token.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna_uuid.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna_lexer.cpp">
+      <Filter>language</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna_language.cpp">
+      <Filter>language</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna_parser.cpp">
+      <Filter>language</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna_interpreter.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luna_scope.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\luna_defines.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_exception.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_trace.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_version.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna.h" />
+    <ClInclude Include="..\luna_type.h" />
+    <ClInclude Include="..\luna_exception_type.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_trace_type.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_node.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_node_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_token.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_token_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_uuid.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_uuid_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_language.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_lexer.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_lexer_type.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_language_type.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_parser.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_parser_type.h">
+      <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_interpreter.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_interpreter_type.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_scope.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\luna_scope_type.h">
+      <Filter>component</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

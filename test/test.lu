@@ -1,0 +1,24 @@
+# LUNA Lexer test script
+# Copyright (C) 2014 David Jolly
+
+is_prime = funct(num, res) {
+	iter = num;
+	res = false;
+	
+	if(num >= 0) {
+		res = true;
+		
+		while(iter >= 2) {
+			
+			if((num % iter) == 0) {
+				res = false;
+				break;
+			}
+			
+			iter = iter - 1;
+		}
+	}
+};
+
+is_prime(10, res);
+print("10 is prime: " + res);

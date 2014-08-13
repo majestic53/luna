@@ -1,0 +1,81 @@
+/*
+ * Project Luna
+ * Copyright (C) 2014 David Jolly
+ * ----------------------
+ *
+ * Luna is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Luna is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <winres.h>
+#include "luna_product.h"
+#include "luna_resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+#define FILE_VERSION LUNA_VER_MAJOR,LUNA_VER_MINOR,LUNA_VER_WORK,LUNA_VER_REV
+#define PRODUCT_VERSION LUNA_VER_MAJOR,LUNA_VER_MINOR
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#ifdef APSTUDIO_INVOKED
+1 TEXTINCLUDE 
+BEGIN
+	"resource.h\0"
+END
+2 TEXTINCLUDE 
+BEGIN
+	"#include ""afxres.h""\r\n"
+	"\0"
+END
+3 TEXTINCLUDE 
+BEGIN
+	"\r\n"
+	"\0"
+END
+#endif // APSTUDIO_INVOKED
+IDI_ICON1 ICON "icon.ico"
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION FILE_VERSION
+PRODUCTVERSION PRODUCT_VERSION
+FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+FILEFLAGS 0x1L
+#else
+FILEFLAGS 0x0L
+#endif // _DEBUG
+FILEOS 0x40000L
+FILETYPE 0x1L
+FILESUBTYPE 0x0L
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+		BLOCK "040904b0"
+		BEGIN
+			VALUE "CompanyName", LUNA_EXE_COPYRIGHT
+			VALUE "FileDescription", LUNA_EXE_PROD_DESC
+			VALUE "FileVersion", LUNA_VER_STR_RES
+			VALUE "InternalName", LUNA_EXE_PROD_DESC
+			VALUE "LegalCopyright", LUNA_EXE_COPYRIGHT
+			VALUE "OriginalFilename", LUNA_EXE_FILE_NAME
+			VALUE "ProductName", LUNA_EXE_PROD_NAME
+			VALUE "ProductVersion", LUNA_VER_STR
+		END
+	END
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x409, 1200
+	END
+END
+
+#endif // English (United States) resources

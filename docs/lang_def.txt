@@ -1,0 +1,64 @@
+LUNA BNF -- Ver.0.1.1433.1
+Copyright (C) 2014 David Jolly
+
+stmt ::= <assign> | <call> | <comm> | <cond> | <cont> | <print>
+---
+bin_oper ::= '&' | '|' | '^'
+bin_val ::= '0b' [0-1]+
+bool ::= 'true' | 'false'
+char ::= '\'' . '\''
+comm ::= '#' .*\n
+dec_val ::= [0-9]+
+div_oper ::= '/' | '%'
+float ::= [0-9]+\.[0-9]+
+hex_val ::= '0x' [a-fA-F0-9]+
+id ::= [a-zA-Z_]+[a-zA-Z0-9_]*
+oct_val ::= 0 [0-7]+
+oper ::= '==' | '~=' | '<' | '>' | '<=' | '>=' | '&&' | '||'
+null ::= 'null'
+scalar ::= <bin_val> | <dec_val> | <hex_val> | <oct_val>
+shift_oper ::= '<<' | '>>'
+string ::= '\"' .* '\"'
+---
+id_ref ::= <id> <id_subref> | <id> '[' <id_ref> ']' | <id> '[' <scalar> ']' | <id>
+id_subref ::= '.' <id_ref>
+---
+assign ::= <id_ref> '=' <expr> ';'
+call ::= <id_ref> '(' <expr_lst> ')' ';'
+cond ::= <if_cond> | <if_cond> <else_expr> | <if_cond> <if_else_cond_lst>
+			| <if_cond> <if_else_cond_lst> <else_expr> 
+			| 'while' '(' <cond_lst> ')' '{' <stmt_lst> '}'
+cont ::= 'break' ';' | 'continue' ';'
+expr ::= <comp_expr> | <funct_expr> | <array_list_expr> | <struct_expr>
+print ::= 'print' '(' <expr> ')' ';'
+---
+assign_lst ::= <id_ref> '=' <expr> ',' <assign_lst> | <id_ref> '=' <expr>
+cond_lst ::= <comp_expr> <oper> <cond_lst> | <comp_expr>
+expr_lst ::= <expr> ',' <expr_lst> | <expr>
+id_lst ::= <id> ',' <id_lst> | <id>
+if_else_cond_lst ::= <if_else_cond> <if_else_cond_lst> | <if_else_cond>
+stmt_lst ::= <stmt> <stmt_lst> | <stmt>
+---
+array_list_expr ::= '{' <expr_lst> '}'
+comp_expr ::= <numeric_expr> | <string_expr>
+else_expr ::= 'else' '{' <stmt_lst> '}'
+funct_expr ::= 'funct' '(' ')' '{' <stmt_lst> '}' 
+			| 'funct' '(' <id_lst> ')' '{' <stmt_lst> '}'
+if_cond ::= 'if' '(' <cond_lst> ')' '{' <stmt_lst> '}'
+if_else_cond ::= 'else' <if_cond>
+numeric_expr ::= <numeric_expr_1> <numeric_expr_0p>
+numeric_expr_0p ::= <bin_oper> <numeric_expr_1> <numeric_expr_0p>
+numeric_expr_1 ::= <numeric_expr_2> <numeric_expr_1p>
+numeric_expr_1p ::= <shift_oper> <numeric_expr_2> <numeric_expr_1p>
+numeric_expr_2 ::= <numeric_expr_3> <numeric_expr_2p>
+numeric_expr_2p ::= '-' <numeric_expr_3> <numeric_expr_2p>
+numeric_expr_3 ::= <numeric_expr_4> <numeric_expr_3p>
+numeric_expr_3p ::= '+' <numeric_expr_4> <numeric_expr_3p>
+numeric_expr_4 ::= <numeric_expr_5> <numeric_expr_4p>
+numeric_expr_4p ::= <div_oper> <numeric_expr_5> <numeric_expr_4p>
+numeric_expr_5 ::= <numeric_expr_6> <numeric_expr_5p>
+numeric_expr_5p ::= '*' <numeric_expr_6> <numeric_expr_5p>
+numeric_expr_6 ::= <bool> | <char> | <float> | <id_ref> | <null> | '~' <numeric_expr> 
+			| '(' <numeric_expr> ')' | <scalar>
+string_expr ::= '(' <string_expr> ')' | <string> '+' <comp_expr> | <string>
+struct_expr ::= 'struct' '{' <assign_lst> '}'
