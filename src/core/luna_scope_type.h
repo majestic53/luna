@@ -26,19 +26,25 @@ namespace LUNA_NS {
 		
 		enum {
 			LUNA_SCOPE_EXCEPTION_ALLOC_FAILED = 0,
+			LUNA_SCOPE_EXCEPTION_ID_NOT_FOUND,
+			LUNA_SCOPE_EXCEPTION_INVALID_INDEX,
 			LUNA_SCOPE_EXCEPTION_INVALID_KEY,
+			LUNA_SCOPE_EXCEPTION_INVALID_TYPE,
+			LUNA_SCOPE_EXCEPTION_KEY_ALREADY_EXISTS,
+			LUNA_SCOPE_EXCEPTION_KEY_NOT_FOUND,
 			LUNA_SCOPE_EXCEPTION_SCOPE_NOT_FOUND,
-			LUNA_SCOPE_EXCEPTION_SYMBOL_ALREADY_EXISTS,
-			LUNA_SCOPE_EXCEPTION_SYMBOL_NOT_FOUND,
 			LUNA_SCOPE_EXCEPTION_UNINITIALIZED,
 		};
 
 		static const std::string LUNA_SCOPE_EXCEPTION_STR[] = {
 			"Scope factory allocation failed",
+			"Symbol id not found in scope",
+			"Invalid symbol index",
 			"Invalid symbol key",
-			"Scope was not found",
+			"Invalid symbol type",
 			"Symbol already exists in scope",
 			"Symbol was not found in scope",
+			"Scope was not found",
 			"Scope factory uninitialized",
 			};
 
@@ -50,6 +56,36 @@ namespace LUNA_NS {
 			THROW_EXCEPTION(LUNA_SCOPE_EXCEPTION_STRING(_EXCEPT_))
 		#define THROW_LUNA_SCOPE_EXCEPTION_MESSAGE(_EXCEPT_, _FORMAT_, ...)\
 			THROW_EXCEPTION_MESSAGE(LUNA_SCOPE_EXCEPTION_STRING(_EXCEPT_), _FORMAT_, __VA_ARGS__)
+
+		class _symbol;
+		typedef _symbol symbol, *symbol_ptr;
+
+		class _symbol_array;
+		typedef _symbol_array symbol_array, *symbol_array_ptr;
+
+		class _symbol_boolean;
+		typedef _symbol_boolean symbol_boolean, *symbol_boolean_ptr;
+
+		class _symbol_float;
+		typedef _symbol_float symbol_float, *symbol_float_ptr;
+
+		class _symbol_function;
+		typedef _symbol_function symbol_function, *symbol_function_ptr;
+
+		class _symbol_identifier;
+		typedef _symbol_identifier symbol_identifier, *symbol_identifier_ptr;
+
+		class _symbol_integer;
+		typedef _symbol_integer symbol_integer, *symbol_integer_ptr;
+
+		class _symbol_literal_string;
+		typedef _symbol_literal_string symbol_literal_string, *symbol_literal_string_ptr;
+
+		class _symbol_null;
+		typedef _symbol_null symbol_null, *symbol_null_ptr;
+
+		class _symbol_structure;
+		typedef _symbol_structure symbol_structure, *symbol_structure_ptr;
 
 		class _scope;
 		typedef _scope scope, *scope_ptr;

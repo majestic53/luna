@@ -28,7 +28,7 @@ namespace LUNA_NS {
 	#define LUNA_VER_MAJOR 0
 	#define LUNA_VER_MINOR 1
 	#define LUNA_VER_WORK 1433
-	#define LUNA_VER_REV 2
+	#define LUNA_VER_REV 3
 
 	#define LUNA_VER_STR\
 		CONCAT_STR(LUNA_VER_MAJOR) "." CONCAT_STR(LUNA_VER_MINOR) "."\

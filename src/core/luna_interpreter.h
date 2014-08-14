@@ -73,6 +73,8 @@ namespace LUNA_NS {
 
 				scope_factory_ptr get_scope_factory(void);
 
+				// TODO: Add function to push new scope
+
 				void pop_scope(void);
 
 				scope_st_t m_scope_stack;
