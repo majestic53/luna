@@ -17,14 +17,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LUNA_PRODUCT_H_
-#define LUNA_PRODUCT_H_
+#include "luna.h"
 
-#include "../core/luna.h"
+namespace LUNA_NS {
 
-#define LUNA_EXE_COPYRIGHT "Copyright (C) 2014 David Jolly"
-#define LUNA_EXE_PROD_DESC "Luna Scripting Language"
-#define LUNA_EXE_PROD_NAME "Luna Interpreter"
-#define LUNA_EXE_FILE_NAME "luna.exe"
+#ifndef _WIN32
+	size_t 
+	_vscprintf(
+		__in const char *format,
+		__in va_list arguments
+		)
+	{
+		return vsnprintf(NULL, 0, format, arguments);
+	}
 
-#endif // LUNA_PRODUCT_H_
+	size_t 
+	vsprintf_s(
+		__out char *buffer,
+		__in size_t length,
+		__in const char *format,
+		__in va_list arguments
+		)
+	{
+		size_t result;
+
+		if(!buffer || !length || !format) {
+			result = INVALID;
+			errno = EINVAL;
+			goto exit;
+		}
+
+		result = vsnprintf(buffer, length, format, arguments);
+
+exit:
+		return result;
+	}
+#endif
+}

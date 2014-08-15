@@ -21,12 +21,22 @@
 #define LUNA_DEFINES_H_
 
 #include <algorithm>
+#include <cstdarg>
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
 #include <mutex>
 #include <sstream>
 #include <string>
+
+#ifndef _WIN32
+#define __in
+#define __in_opt
+#define __out
+#define __out_opt
+#define __inout
+#define __inout_opt
+#endif // _WIN32
 
 namespace LUNA_NS {
 
@@ -80,6 +90,22 @@ namespace LUNA_NS {
 		transform_inline(tolower, std::string(1, _CH_)).c_str()[0]
 
 	typedef void(*generic_cb_t)(void);
+
+#ifndef _WIN32
+	size_t 
+	_vscprintf(
+		__in const char *format,
+		__in va_list arguments
+		);
+
+	size_t 
+	vsprintf_s(
+		__out char *buffer,
+		__in size_t length,
+		__in const char *format,
+		__in va_list arguments
+		);
+#endif
 }
 
 #endif // LUNA_DEFINES_H_

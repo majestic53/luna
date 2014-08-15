@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstdarg>
 #include <stdexcept>
+#include <errno.h>
 #include "luna.h"
 #include "luna_exception_type.h"
 

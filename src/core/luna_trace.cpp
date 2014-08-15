@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstdarg>
 #include <stdexcept>
 #include "luna.h"
 #include "luna_trace_type.h"
