@@ -281,7 +281,7 @@ namespace LUNA_NS {
 				_symbol_identifier(
 					__in _scope *parent,
 					__in const std::string &key,
-					__in const std::string &value
+					__in_opt const std::string &value = std::string()
 					);
 
 				_symbol_identifier(
@@ -355,7 +355,7 @@ namespace LUNA_NS {
 				_symbol_literal_string(
 					__in _scope *parent,
 					__in const std::string &key,
-					__in const std::string &value
+					__in_opt const std::string &value = std::string()
 					);
 
 				_symbol_literal_string(
@@ -566,6 +566,15 @@ namespace LUNA_NS {
 					);
 
 			protected:
+
+				uuid add_symbol(
+					__in symbol_ptr sym
+					);
+
+				symbol_ptr allocate_symbol(
+					__in const std::string &key,
+					__in scope_sym_t type
+					);
 
 				std::map<std::string, uuid>::iterator find_lookup_symbol(
 					__in const std::string &key

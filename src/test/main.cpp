@@ -41,22 +41,24 @@ main(void)
 		std::cout << std::endl << "---" << std::endl;
 
 		// TODO: test here
-		parser par("../../../test/test.lu", true);
+		interpreter inter("../../../test/test.lu", true);
 
-		while(par.has_next_statement()) {
+		inter.run();
+
+		/*while(par.has_next_statement()) {
 			std::cout << par.to_string() << std::endl;
 			par.move_next_statement();
 		}
 
 		std::cout << par.to_string() << std::endl;
 
-		/*while(par.has_previous_token()) {
+		while(par.has_previous_token()) {
 			par.move_previous_token();
 			std::cout << par.to_string() << std::endl;
 		}*/
 		// ---
 
-		//std::cout << "---" << std::endl << std::endl << inst->to_string(true);
+		std::cout << "---" << std::endl << std::endl << inst->to_string(true);
 		inst->destroy();
 	} catch(std::runtime_error &exc) {
 		std::cerr << exc.what() << std::endl;

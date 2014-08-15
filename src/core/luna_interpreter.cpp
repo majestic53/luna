@@ -91,6 +91,134 @@ namespace LUNA_NS {
 			parser::reset();
 			flush_scopes();
 
+			// TODO: setup global scope here
+
+			TRACE_EXIT("Return Value: 0x%x", NULL);
+		}
+
+		void 
+		_interpreter::evaluate_assignment(
+			__in node_factory_ptr node_fact,
+			__in token_factory_ptr tok_fact,
+			__in node &node,
+			__in token &tok
+			)
+		{
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+			
+			// TODO: evaluate_assignment
+			UNREF_PARAM(node_fact);
+			UNREF_PARAM(tok_fact);
+			UNREF_PARAM(node);
+			UNREF_PARAM(tok);
+			// ---
+
+			TRACE_EXIT("Return Value: 0x%x", NULL);
+		}
+
+		void 
+		_interpreter::evaluate_conditional_if(
+			__in node_factory_ptr node_fact,
+			__in token_factory_ptr tok_fact,
+			__in node &node,
+			__in token &tok
+			)
+		{
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+			
+			// TODO: evaluate_conditional_if
+			UNREF_PARAM(node_fact);
+			UNREF_PARAM(tok_fact);
+			UNREF_PARAM(node);
+			UNREF_PARAM(tok);
+			// ---
+
+			TRACE_EXIT("Return Value: 0x%x", NULL);
+		}
+
+		void 
+		_interpreter::evaluate_conditional_while(
+			__in node_factory_ptr node_fact,
+			__in token_factory_ptr tok_fact,
+			__in node &node,
+			__in token &tok
+			)
+		{
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+			
+			// TODO: evaluate_conditional_while
+			UNREF_PARAM(node_fact);
+			UNREF_PARAM(tok_fact);
+			UNREF_PARAM(node);
+			UNREF_PARAM(tok);
+			// ---
+
+			TRACE_EXIT("Return Value: 0x%x", NULL);
+		}
+
+		void 
+		_interpreter::evaluate_control(
+			__in node_factory_ptr node_fact,
+			__in token_factory_ptr tok_fact,
+			__in node &node,
+			__in token &tok
+			)
+		{
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+			
+			// TODO: evaluate_control
+			UNREF_PARAM(node_fact);
+			UNREF_PARAM(tok_fact);
+			UNREF_PARAM(node);
+			UNREF_PARAM(tok);
+			// ---
+
+			TRACE_EXIT("Return Value: 0x%x", NULL);
+		}
+
+		void 
+		_interpreter::evaluate_function_call(
+			__in node_factory_ptr node_fact,
+			__in token_factory_ptr tok_fact,
+			__in node &node,
+			__in token &tok
+			)
+		{
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+			
+			// TODO: evaluate_function_call
+			UNREF_PARAM(node_fact);
+			UNREF_PARAM(tok_fact);
+			UNREF_PARAM(node);
+			UNREF_PARAM(tok);
+			// ---
+
+			TRACE_EXIT("Return Value: 0x%x", NULL);
+		}
+				
+		void 
+		_interpreter::evaluate_print(
+			__in node_factory_ptr node_fact,
+			__in token_factory_ptr tok_fact,
+			__in node &node,
+			__in token &tok
+			)
+		{
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+			
+			// TODO: evaluate_print
+			UNREF_PARAM(node_fact);
+			UNREF_PARAM(tok_fact);
+			UNREF_PARAM(node);
+			UNREF_PARAM(tok);
+			// ---
+
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 		}
 
@@ -102,14 +230,16 @@ namespace LUNA_NS {
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			scop_fact = get_scope_factory();
-			if(!scop_fact) {
-				THROW_LUNA_INTERPRETER_EXCEPTION(LUNA_INTERPRETER_EXCEPTION_FACTORY_ALLOC_FAILED);
-			}
+			if(luna::is_globally_initialized()) {
 
-			while(!m_scope_stack.empty()) {
-				scop_fact->remove_scope(m_scope_stack.top());
-				pop_scope();
+				scop_fact = get_scope_factory();
+				if(scop_fact) {
+
+					while(!m_scope_stack.empty()) {
+						scop_fact->remove_scope(m_scope_stack.top());
+						pop_scope();
+					}
+				}
 			}
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
@@ -144,9 +274,28 @@ namespace LUNA_NS {
 				THROW_LUNA_INTERPRETER_EXCEPTION(LUNA_INTERPRETER_EXCEPTION_NO_SCOPE);
 			}
 
+			if(luna::is_globally_initialized()) {
+				get_scope_factory()->remove_scope(m_scope_stack.top());
+			}
+
 			m_scope_stack.pop();
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
+		}
+
+		uuid 
+		_interpreter::push_scope(void)
+		{
+			uuid result;
+
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+
+			result = get_scope_factory()->generate().get_id();
+			m_scope_stack.push(result);
+
+			TRACE_EXIT("Return Value: 0x%x", NULL);
+			return result;
 		}
 
 		void 
@@ -180,8 +329,13 @@ namespace LUNA_NS {
 		}
 
 		void 
-		_interpreter::step(void)
+		_interpreter::step(
+			__in_opt bool expect_next
+			)
 		{
+			node_factory_ptr node_fact;
+			token_factory_ptr tok_fact;
+
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
@@ -189,7 +343,82 @@ namespace LUNA_NS {
 				THROW_LUNA_INTERPRETER_EXCEPTION(LUNA_INTERPRETER_EXCEPTION_NO_NEXT_STATEMENT);
 			}
 
-			// TODO: step
+			if(parser::get_statement().front().get_id() == parser::get_begin_statement().front().get_id()) {
+				parser::move_next_statement();
+			}
+
+			if(parser::has_next_statement()) {
+				
+				node_fact = parser::get_node_factory();
+				if(!node_fact) {
+					THROW_LUNA_INTERPRETER_EXCEPTION(LUNA_INTERPRETER_EXCEPTION_FACTORY_ALLOC_FAILED);
+				}
+
+				tok_fact = lexer::get_token_factory();
+				if(!tok_fact) {
+					THROW_LUNA_INTERPRETER_EXCEPTION(LUNA_INTERPRETER_EXCEPTION_FACTORY_ALLOC_FAILED);
+				}
+
+				node &stmt_nd = node_fact->get_node(parser::get_statement().front());
+				token &stmt_tok = tok_fact->get_token(stmt_nd.get_token_id());
+
+				if(!stmt_nd.get_child_count()
+						|| (stmt_tok.get_type() != TOKEN_STATEMENT)) {
+					THROW_LUNA_INTERPRETER_EXCEPTION_MESSAGE(LUNA_INTERPRETER_EXCEPTION_EXPECTING_STATEMENT,
+						"%s", stmt_tok.to_string().c_str());
+				}
+
+				node &left_child_nd = node_fact->get_node(parser::get_statement().at(stmt_nd.get_child(0)));
+				token &left_child_tok = tok_fact->get_token(left_child_nd.get_token_id());
+
+				switch(left_child_tok.get_type()) {
+					case TOKEN_CONTROL:
+						evaluate_control(node_fact, tok_fact, stmt_nd, stmt_tok);
+						break;
+					case TOKEN_IDENTIFIER: {
+							node &right_child_nd = node_fact->get_node(parser::get_statement().at(stmt_nd.get_child(1)));
+							token &right_child_tok = tok_fact->get_token(right_child_nd.get_token_id());
+
+							switch(right_child_tok.get_type()) {
+								case TOKEN_ASSIGNMENT:
+									evaluate_assignment(node_fact, tok_fact, stmt_nd, stmt_tok);
+									break;
+								case TOKEN_FUNCTION_CALL:
+									evaluate_function_call(node_fact, tok_fact, stmt_nd, stmt_tok);
+									break;
+								default:
+									THROW_LUNA_INTERPRETER_EXCEPTION_MESSAGE(LUNA_INTERPRETER_EXCEPTION_EXPECTING_ASSIGNMENT,
+										"%s", right_child_tok.to_string().c_str());
+							}
+						} break;
+					case TOKEN_KEYWORD:
+
+						switch(left_child_tok.get_subtype()) {
+						case KEYWORD_IF:
+							evaluate_conditional_if(node_fact, tok_fact, stmt_nd, stmt_tok);
+							break;
+						case KEYWORD_WHILE:
+							evaluate_conditional_while(node_fact, tok_fact, stmt_nd, stmt_tok);
+							break;
+						case KEYWORD_PRINT:
+							evaluate_print(node_fact, tok_fact, stmt_nd, stmt_tok);
+							break;
+						default:
+							THROW_LUNA_INTERPRETER_EXCEPTION_MESSAGE(LUNA_INTERPRETER_EXCEPTION_EXPECTING_CONDITIONAL,
+								"%s", left_child_tok.to_string().c_str());
+						}
+						break;
+					default:
+						THROW_LUNA_INTERPRETER_EXCEPTION_MESSAGE(LUNA_INTERPRETER_EXCEPTION_EXPECTING_STATEMENT,
+							"%s", left_child_tok.to_string().c_str());
+				}
+
+				if(parser::has_next_statement()) {
+					parser::move_next_statement();
+				} else if(expect_next) {
+					THROW_LUNA_INTERPRETER_EXCEPTION(LUNA_INTERPRETER_EXCEPTION_EXPECTING_NEXT_STATEMENT);
+				}
+			}
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 		}

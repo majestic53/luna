@@ -699,7 +699,7 @@ namespace LUNA_NS {
 		_symbol_identifier::_symbol_identifier(
 			__in _scope *parent,
 			__in const std::string &key,
-			__in const std::string &value
+			__in_opt const std::string &value
 			) :
 				symbol(parent, key, SCOPE_SYMBOL_IDENTIFIER),
 				m_value(value)
@@ -865,7 +865,7 @@ namespace LUNA_NS {
 		_symbol_literal_string::_symbol_literal_string(
 			__in _scope *parent,
 			__in const std::string &key,
-			__in const std::string &value
+			__in_opt const std::string &value
 			) :
 				symbol(parent, key, SCOPE_SYMBOL_LITERAL_STRING),
 				m_value(value)
@@ -1222,12 +1222,6 @@ namespace LUNA_NS {
 			TRACE_EXIT("Return Value: 0x%p", this);
 			return *this;
 		}
-		
-		/*
-		 * TODO: write a generic symbol allocation routine
-		 * --- add symbol <key,uuid> to sym_lookup_map
-		 * --- add symbol <uuid,sym_ptr> to sym_map
-		 */
 
 		uuid 
 		_scope::add_symbol_array(
@@ -1239,9 +1233,7 @@ namespace LUNA_NS {
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_array
-			UNREF_PARAM(key);
-			// ---
+			result = add_symbol(allocate_symbol(key, SCOPE_SYMBOL_ARRAY));
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 			return result;
@@ -1254,14 +1246,18 @@ namespace LUNA_NS {
 			)
 		{
 			uuid result;
+			symbol_boolean_ptr sym;
 
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_boolean
-			UNREF_PARAM(key);
-			UNREF_PARAM(value);
-			// ---
+			sym = (symbol_boolean_ptr) allocate_symbol(key, SCOPE_SYMBOL_BOOLEAN);
+			if(!sym) {
+				THROW_LUNA_SCOPE_EXCEPTION(LUNA_SCOPE_EXCEPTION_INVALID_SYMBOL);
+			}
+			
+			sym->set_value(value);
+			result = add_symbol(sym);
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 			return result;
@@ -1274,14 +1270,18 @@ namespace LUNA_NS {
 			)
 		{
 			uuid result;
+			symbol_float_ptr sym;
 
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_float
-			UNREF_PARAM(key);
-			UNREF_PARAM(value);
-			// ---
+			sym = (symbol_float_ptr) allocate_symbol(key, SCOPE_SYMBOL_FLOAT);
+			if(!sym) {
+				THROW_LUNA_SCOPE_EXCEPTION(LUNA_SCOPE_EXCEPTION_INVALID_SYMBOL);
+			}
+			
+			sym->set_value(value);
+			result = add_symbol(sym);
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 			return result;
@@ -1297,9 +1297,7 @@ namespace LUNA_NS {
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_function
-			UNREF_PARAM(key);
-			// ---
+			result = add_symbol(allocate_symbol(key, SCOPE_SYMBOL_FUNCTION));
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 			return result;
@@ -1312,14 +1310,18 @@ namespace LUNA_NS {
 			)
 		{
 			uuid result;
+			symbol_identifier_ptr sym;
 
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_identifier
-			UNREF_PARAM(key);
-			UNREF_PARAM(value);
-			// ---
+			sym = (symbol_identifier_ptr) allocate_symbol(key, SCOPE_SYMBOL_IDENTIFIER);
+			if(!sym) {
+				THROW_LUNA_SCOPE_EXCEPTION(LUNA_SCOPE_EXCEPTION_INVALID_SYMBOL);
+			}
+			
+			sym->set_value(value);
+			result = add_symbol(sym);
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 			return result;
@@ -1332,14 +1334,18 @@ namespace LUNA_NS {
 			)
 		{
 			uuid result;
+			symbol_integer_ptr sym;
 
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_integer
-			UNREF_PARAM(key);
-			UNREF_PARAM(value);
-			// ---
+			sym = (symbol_integer_ptr) allocate_symbol(key, SCOPE_SYMBOL_INTEGER);
+			if(!sym) {
+				THROW_LUNA_SCOPE_EXCEPTION(LUNA_SCOPE_EXCEPTION_INVALID_SYMBOL);
+			}
+			
+			sym->set_value(value);
+			result = add_symbol(sym);
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 			return result;
@@ -1352,14 +1358,18 @@ namespace LUNA_NS {
 			)
 		{
 			uuid result;
+			symbol_literal_string_ptr sym;
 
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_literal_string
-			UNREF_PARAM(key);
-			UNREF_PARAM(value);
-			// ---
+			sym = (symbol_literal_string_ptr) allocate_symbol(key, SCOPE_SYMBOL_LITERAL_STRING);
+			if(!sym) {
+				THROW_LUNA_SCOPE_EXCEPTION(LUNA_SCOPE_EXCEPTION_INVALID_SYMBOL);
+			}
+			
+			sym->set_value(value);
+			result = add_symbol(sym);
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 			return result;
@@ -1375,9 +1385,7 @@ namespace LUNA_NS {
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_null
-			UNREF_PARAM(key);
-			// ---
+			result = add_symbol(allocate_symbol(key, SCOPE_SYMBOL_NULL));
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
 			return result;
@@ -1393,11 +1401,82 @@ namespace LUNA_NS {
 			TRACE_ENTRY();
 			SERIALIZE_CALL_RECUR(m_lock);
 
-			// TODO: add_symbol_structure
-			UNREF_PARAM(key);
-			// ---
+			result = add_symbol(allocate_symbol(key, SCOPE_SYMBOL_STRUCTURE));
 
 			TRACE_EXIT("Return Value: 0x%x", NULL);
+			return result;
+		}
+
+		uuid 
+		_scope::add_symbol(
+			__in symbol_ptr sym
+			)
+		{
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+
+			if(!sym) {
+				THROW_LUNA_SCOPE_EXCEPTION(LUNA_SCOPE_EXCEPTION_INVALID_SYMBOL);
+			}
+
+			if((m_sym_lookup_map.find(sym->get_key()) != m_sym_lookup_map.end())
+					|| (m_sym_map.find(sym->get_id()) != m_sym_map.end())) {
+				THROW_LUNA_SCOPE_EXCEPTION_MESSAGE(LUNA_SCOPE_EXCEPTION_KEY_ALREADY_EXISTS,
+					"%s", sym->get_key().c_str());
+			}
+
+			m_sym_lookup_map.insert(std::pair<std::string, uuid>(sym->get_key(), sym->get_id()));
+			m_sym_map.insert(std::pair<uuid, symbol_ptr>(sym->get_id(), sym));
+			
+			TRACE_EXIT("Return Value: 0x%x", NULL);
+			return sym->get_id();
+		}
+
+		symbol_ptr 
+		_scope::allocate_symbol(
+			__in const std::string &key,
+			__in scope_sym_t type
+			)
+		{
+			symbol_ptr result = NULL;
+
+			TRACE_ENTRY();
+			SERIALIZE_CALL_RECUR(m_lock);
+
+			switch(type) {
+				case SCOPE_SYMBOL_ARRAY:
+					result = new symbol_array(this, key);
+					break;
+				case SCOPE_SYMBOL_BOOLEAN:
+					result = new symbol_boolean(this, key);
+					break;
+				case SCOPE_SYMBOL_FLOAT:
+					result = new symbol_float(this, key);
+					break;
+				case SCOPE_SYMBOL_FUNCTION:
+					result = new symbol_function(this, key);
+					break;
+				case SCOPE_SYMBOL_IDENTIFIER:
+					result = new symbol_identifier(this, key);
+					break;
+				case SCOPE_SYMBOL_INTEGER:
+					result = new symbol_integer(this, key);
+					break;
+				case SCOPE_SYMBOL_LITERAL_STRING:
+					result = new symbol_literal_string(this, key);
+					break;
+				case SCOPE_SYMBOL_NULL:
+					result = new symbol_null(this, key);
+					break;
+				case SCOPE_SYMBOL_STRUCTURE:
+					result = new symbol_structure(this, key);
+					break;
+				default:
+					THROW_LUNA_SCOPE_EXCEPTION_MESSAGE(LUNA_SCOPE_EXCEPTION_INVALID_TYPE,
+						"%lu", type);
+			}
+
+			TRACE_EXIT("Return Value: 0x%p", result);
 			return result;
 		}
 

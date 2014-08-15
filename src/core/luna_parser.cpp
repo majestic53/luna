@@ -27,7 +27,8 @@ namespace LUNA_NS {
 	
 		#define NODE_TAB_SEQUENCE "---"
 
-		_parser::_parser(void)
+		_parser::_parser(void) :
+			m_statement_position(0)
 		{
 			TRACE_ENTRY();
 

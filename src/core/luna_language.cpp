@@ -32,7 +32,6 @@ namespace LUNA_NS {
 			)
 		{
 			size_t subtype_str_len;
-			const std::string *subtype_str = NULL;
 			uint32_t result = TOKEN_SUBTYPE_INVALID;
 
 			TRACE_ENTRY();
@@ -40,7 +39,7 @@ namespace LUNA_NS {
 			subtype_str_len = TOKEN_SUBTYPE_STRINGS_LENGTH(type);
 			if(subtype_str_len) {
 				
-				subtype_str = TOKEN_SUBTYPE_STRINGS(type);
+				const std::string *subtype_str = TOKEN_SUBTYPE_STRINGS(type);
 				if(subtype_str) {
 
 					for(result = 0; result < subtype_str_len; ++result) {

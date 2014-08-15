@@ -61,7 +61,9 @@ namespace LUNA_NS {
 					__in_opt bool is_file = false
 					);
 
-				void step(void);
+				void step(
+					__in_opt bool expect_next = false
+					);
 
 				virtual std::string to_string(
 					__in_opt bool verbose = false
@@ -69,13 +71,55 @@ namespace LUNA_NS {
 
 			protected:
 
+				void evaluate_assignment(
+					__in node_factory_ptr node_fact,
+					__in token_factory_ptr tok_fact,
+					__in node &node,
+					__in token &tok
+					);
+
+				void evaluate_conditional_if(
+					__in node_factory_ptr node_fact,
+					__in token_factory_ptr tok_fact,
+					__in node &node,
+					__in token &tok
+					);
+
+				void evaluate_conditional_while(
+					__in node_factory_ptr node_fact,
+					__in token_factory_ptr tok_fact,
+					__in node &node,
+					__in token &tok
+					);
+
+				void evaluate_control(
+					__in node_factory_ptr node_fact,
+					__in token_factory_ptr tok_fact,
+					__in node &node,
+					__in token &tok
+					);
+
+				void evaluate_function_call(
+					__in node_factory_ptr node_fact,
+					__in token_factory_ptr tok_fact,
+					__in node &node,
+					__in token &tok
+					);
+				
+				void evaluate_print(
+					__in node_factory_ptr node_fact,
+					__in token_factory_ptr tok_fact,
+					__in node &node,
+					__in token &tok
+					);
+
 				void flush_scopes(void);
 
 				scope_factory_ptr get_scope_factory(void);
 
-				// TODO: Add function to push new scope
-
 				void pop_scope(void);
+
+				uuid push_scope(void);
 
 				scope_st_t m_scope_stack;
 
