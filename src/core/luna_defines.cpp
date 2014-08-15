@@ -52,5 +52,5 @@ namespace LUNA_NS {
 exit:
 		return result;
 	}
-#endif
+#endif // _WIN32
 }

@@ -105,7 +105,7 @@ namespace LUNA_NS {
 		__in const char *format,
 		__in va_list arguments
 		);
-#endif
+#endif // _WIN32
 }
 
 #endif // LUNA_DEFINES_H_
